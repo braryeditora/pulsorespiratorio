@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Pulso Respiratório | Com que frequência sua família fica gripada ou resfriada?</title>
+<meta name="description" content="Pesquisa anônima sobre a frequência de episódios de sintomas respiratórios, gripes e resfriados nas famílias.">
+<meta property="og:title" content="Pulso Respiratório">
+<meta property="og:description" content="Quanto tempo passa entre um episódio respiratório e o próximo na sua casa? Pesquisa de 1 minuto.">
+<meta property="og:type" content="website">
+<style>
+  :root{
+    --bg:#F7F9F8;
+    --card:#FFFFFF;
+    --text:#10231D;
+    --text-sec:#5C6B66;
+    --green:#24745B;
+    --green-soft:#DCEDE7;
+    --blue:#386B8C;
+    --border:#E2E8E5;
+    --radius:14px;
+    --maxw:720px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:"Inter","Manrope",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+  }
+  a{color:var(--green);}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 20px;}
+  .sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap;}
+  .skip-link{position:absolute; left:-999px; top:0; background:var(--green); color:#fff; padding:10px 16px; border-radius:0 0 8px 0; z-index:100;}
+  .skip-link:focus{left:0;}
+
+  /* nav */
+  header.topbar{position:sticky; top:0; background:rgba(247,249,248,0.92); backdrop-filter:blur(6px); border-bottom:1px solid var(--border); z-index:50;}
+  .topbar-inner{max-width:var(--maxw); margin:0 auto; padding:14px 20px; display:flex; align-items:center; justify-content:space-between;}
+  .brand{display:flex; align-items:center; gap:8px; font-weight:700; font-size:15px; text-decoration:none; color:var(--text);}
+  .brand-dot{width:22px; height:22px; border-radius:7px; background:var(--green-soft); display:flex; align-items:center; justify-content:center;}
+  .brand-dot svg{width:13px; height:13px;}
+  nav.topnav a{font-size:14px; color:var(--text-sec); text-decoration:none; margin-left:18px;}
+  nav.topnav a:hover{color:var(--green);}
+
+  /* generic */
+  section{padding:56px 0;}
+  h1{font-size:clamp(26px,5vw,38px); font-weight:700; line-height:1.25; margin:0 0 16px;}
+  h2{font-size:clamp(20px,3.4vw,26px); font-weight:700; margin:0 0 14px;}
+  h3{font-size:17px; font-weight:600; margin:0 0 8px;}
+  p{margin:0 0 14px; color:var(--text-sec);}
+  .lede{font-size:17px;}
+  .eyebrow{font-size:13px; font-weight:600; color:var(--green); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:10px;}
+  .btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; border:none; border-radius:10px; padding:15px 22px; font-size:15px; font-weight:600; cursor:pointer; font-family:inherit; transition:transform .12s ease, background .15s ease;}
+  .btn:active{transform:scale(0.98);}
+  .btn-primary{background:var(--green); color:#fff;}
+  .btn-primary:hover{background:#1d5f49;}
+  .btn-secondary{background:#fff; color:var(--text); border:1px solid var(--border);}
+  .btn-secondary:hover{border-color:#c7d1cd;}
+  .btn-block{width:100%;}
+  .btn:disabled{opacity:0.5; cursor:not-allowed;}
+  .card{background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:24px;}
+  .note{font-size:12.5px; color:var(--text-sec); text-align:center;}
+  .callout{background:var(--green-soft); border-radius:12px; padding:14px 16px; display:flex; gap:10px; align-items:flex-start; font-size:13px; color:#0e2b21;}
+  .callout svg{flex-shrink:0; margin-top:2px;}
+  footer{border-top:1px solid var(--border); padding:36px 0; font-size:12.5px; color:var(--text-sec);}
+  footer .wrap{display:flex; flex-direction:column; gap:8px;}
+
+  /* hero */
+  .hero{padding-top:44px;}
+  .hero-sub{font-size:14px; color:var(--green); font-weight:600; margin-bottom:6px;}
+  .hero-symptoms{font-size:14px; color:var(--text-sec); margin-bottom:6px;}
+  .hero-actions{margin-top:22px; display:flex; flex-direction:column; gap:10px; max-width:320px;}
+
+  /* why / how */
+  .grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  @media (max-width:640px){.grid-3{grid-template-columns:1fr;}}
+  .step-mini{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:18px;}
+  .step-mini .num{font-size:13px; font-weight:700; color:var(--green); margin-bottom:6px;}
+
+  /* stats preview */
+  .stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:8px;}
+  @media (max-width:640px){.stat-grid{grid-template-columns:1fr;}}
+  .stat-card{background:var(--card); border:1px solid var(--border); border-radius:12px; padding:16px; text-align:center;}
+  .stat-card .val{font-size:24px; font-weight:700; color:var(--green);}
+  .stat-card .lbl{font-size:12.5px; color:var(--text-sec); margin-top:4px;}
+
+  /* survey */
+  #view-survey{display:none;}
+  .survey-shell{max-width:560px; margin:0 auto; padding:28px 20px 60px;}
+  .survey-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
+  .survey-top button{background:none; border:none; color:var(--text-sec); font-size:14px; cursor:pointer; padding:6px;}
+  .progress-track{height:5px; background:var(--border); border-radius:3px; overflow:hidden; margin-bottom:26px;}
+  .progress-fill{height:100%; background:var(--green); border-radius:3px; transition:width .35s ease;}
+  .q-title{font-size:19px; font-weight:700; margin-bottom:6px; line-height:1.4;}
+  .q-help{font-size:13.5px; color:var(--text-sec); margin-bottom:18px;}
+  .options{display:flex; flex-direction:column; gap:10px; margin-bottom:22px;}
+  .option{border:1px solid var(--border); background:#fff; border-radius:12px; padding:15px 16px; font-size:15px; text-align:left; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:10px; font-family:inherit; color:var(--text); transition:border-color .12s ease, background .12s ease;}
+  .option:hover{border-color:#b9c7c2;}
+  .option:focus-visible{outline:2px solid var(--green); outline-offset:2px;}
+  .option[aria-checked="true"]{border-color:var(--green); border-width:2px; background:var(--green-soft); padding:14px 15px;}
+  .option .chk{width:18px; height:18px; border-radius:5px; border:1.5px solid var(--border); flex-shrink:0; display:flex; align-items:center; justify-content:center;}
+  .option[aria-checked="true"] .chk{background:var(--green); border-color:var(--green);}
+  .option .chk svg{display:none; width:12px; height:12px;}
+  .option[aria-checked="true"] .chk svg{display:block;}
+  .survey-nav{display:flex; gap:10px;}
+  .survey-nav .btn-secondary{flex:1;}
+  .survey-nav .btn-primary{flex:2;}
+  textarea, input[type=text], input[type=email], input[type=tel], select{
+    width:100%; border:1px solid var(--border); border-radius:10px; padding:13px 14px; font-size:15px; font-family:inherit; color:var(--text); background:#fff;
+  }
+  textarea{min-height:110px; resize:vertical;}
+  input:focus, select:focus, textarea:focus{outline:2px solid var(--green); outline-offset:1px; border-color:var(--green);}
+  label.field-label{display:block; font-size:13.5px; font-weight:600; margin-bottom:6px; color:var(--text);}
+  .field{margin-bottom:16px;}
+  .char-count{font-size:12px; color:var(--text-sec); text-align:right; margin-top:4px;}
+  .honeypot{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden;}
+  .consent-row{display:flex; gap:10px; align-items:flex-start; margin:16px 0;}
+  .consent-row input{width:18px; height:18px; margin-top:2px; flex-shrink:0;}
+  .review-item{display:flex; justify-content:space-between; gap:12px; padding:10px 0; border-bottom:1px solid var(--border); font-size:14px;}
+  .review-item:last-child{border-bottom:none;}
+  .review-item .k{color:var(--text-sec);}
+  .review-item .v{text-align:right; font-weight:500; max-width:60%;}
+
+  /* success */
+  #view-success{display:none; text-align:center; padding:70px 20px;}
+  .success-icon{width:60px; height:60px; border-radius:50%; background:var(--green-soft); display:flex; align-items:center; justify-content:center; margin:0 auto 20px;}
+  .success-actions{display:flex; flex-direction:column; gap:10px; max-width:320px; margin:24px auto 0;}
+
+  /* results */
+  #view-results{display:none;}
+  .results-shell{padding:36px 0 60px;}
+  .bar-row{margin-bottom:16px;}
+  .bar-label{display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:5px;}
+  .bar-label .cat{font-weight:500;}
+  .bar-label .val{color:var(--text-sec);}
+  .bar-track{height:14px; background:var(--green-soft); border-radius:7px; overflow:hidden;}
+  .bar-fill{height:100%; background:var(--green); border-radius:7px; transition:width .6s ease;}
+  .bar-fill.alt{background:var(--blue);}
+  .insight-box{background:var(--green-soft); border-radius:12px; padding:18px; font-size:14.5px; color:#0e2b21; margin:22px 0;}
+  .insight-box strong{color:#0e2b21;}
+  .mock-tag{display:inline-block; font-size:10.5px; font-weight:700; letter-spacing:0.04em; background:#F0E4C8; color:#6b4e10; padding:3px 8px; border-radius:5px; margin-bottom:10px;}
+  .methodology p{font-size:13.5px;}
+
+  .toast{position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(10px); background:var(--text); color:#fff; padding:11px 18px; border-radius:10px; font-size:13.5px; opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease; z-index:200;}
+  .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<a href="#main" class="skip-link">Pular para o conteúdo</a>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="#home" class="brand" onclick="go('home')">
+      <span class="brand-dot"><svg viewBox="0 0 24 24" fill="none" stroke="#24745B" stroke-width="2"><path d="M4 12c2-4 4-4 6 0s4 4 6 0 4-4 4 0"/></svg></span>
+      pulso respiratório
+    </a>
+    <nav class="topnav">
+      <a href="#sobre" onclick="go('home');scrollToId('sobre')">Sobre</a>
+      <a href="#" onclick="go('results');return false;">Resultados</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ===================== HOME ===================== -->
+<div id="view-home">
+
+  <section class="hero">
+    <div class="wrap">
+      <p class="hero-sub">Pesquisa anônima de percepção • menos de 1 minuto</p>
+      <h1>Quanto tempo passa até alguém ficar gripado ou resfriado novamente na sua casa?</h1>
+      <p class="hero-symptoms">Coriza. Espirros. Tosse. Dor de garganta. Febre. Nariz entupido.</p>
+      <p class="lede">Muitas famílias têm a sensação de que esses episódios estão acontecendo com frequência. Mas qual é o intervalo real percebido pelas pessoas? Ajude a transformar percepção em dados.</p>
+
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-block" onclick="startSurvey()">Responder à pesquisa</button>
+        <p class="note">Não solicitamos CPF nem dados médicos identificáveis.</p>
+      </div>
+
+      <div class="callout" style="margin-top:24px; max-width:480px;">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#24745B" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <span>Esta pesquisa não substitui avaliação médica e não realiza diagnóstico. Gripe, resfriado, rinite e outras condições podem ter sintomas parecidos — por isso perguntamos sobre sintomas e frequência, não sobre doenças específicas.</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="por-que">
+    <div class="wrap">
+      <p class="eyebrow">Por que essa pesquisa</p>
+      <h2>Tudo começou com uma pergunta simples.</h2>
+      <p>Será que os episódios de gripe, resfriado e outros sintomas respiratórios estão acontecendo em intervalos menores dentro das famílias? Uma experiência individual não permite responder essa pergunta — por isso estamos convidando outras pessoas a contar o que estão observando.</p>
+      <p>Quanto mais respostas tivermos, melhor conseguiremos enxergar os padrões relatados. A percepção inicial pode estar certa ou errada. É exatamente isso que queremos descobrir juntos.</p>
+    </div>
+  </section>
+
+  <section id="como-funciona" style="background:var(--card); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+    <div class="wrap">
+      <p class="eyebrow">Como funciona</p>
+      <h2>Sete perguntas rápidas, sem cadastro</h2>
+      <div class="grid-3">
+        <div class="step-mini"><div class="num">01</div><h3>Responda</h3><p style="margin:0; font-size:13.5px;">Perguntas objetivas sobre frequência e sintomas, com opções em formato de cartão.</p></div>
+        <div class="step-mini"><div class="num">02</div><h3>Envie</h3><p style="margin:0; font-size:13.5px;">Revise suas respostas antes de confirmar o envio. Leva menos de 1 minuto.</p></div>
+        <div class="step-mini"><div class="num">03</div><h3>Veja os dados</h3><p style="margin:0; font-size:13.5px;">Acompanhe os resultados agregados de todas as famílias participantes.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="preview-stats">
+    <div class="wrap">
+      <p class="eyebrow">Até agora</p>
+      <h2 id="stats-heading">Pesquisa iniciada recentemente</h2>
+      <div class="stat-grid" id="stat-grid"></div>
+      <div style="margin-top:20px;"><a href="#" onclick="go('results');return false;" style="font-size:14.5px; font-weight:600;">Ver todos os resultados →</a></div>
+    </div>
+  </section>
+
+  <section id="sobre" style="background:var(--card); border-top:1px solid var(--border);">
+    <div class="wrap">
+      <p class="eyebrow">Sobre esta pesquisa</p>
+      <h2>Metodologia</h2>
+      <p>O Pulso Respiratório é uma pesquisa observacional baseada em respostas voluntárias. O objetivo é compreender a percepção das pessoas sobre a frequência de episódios de sintomas respiratórios dentro de suas residências.</p>
+      <p>Os participantes podem usar expressões como "gripe" ou "resfriado" para descrever condições diferentes. Por isso a pesquisa registra sintomas e frequência percebida, mas não determina diagnóstico.</p>
+      <p>As respostas não constituem uma amostra probabilística da população brasileira. Os resultados representam exclusivamente os participantes da pesquisa. Correlação não significa causalidade.</p>
+
+      <div class="card" style="display:flex; gap:16px; align-items:center; margin-top:20px;">
+        <img src="data:image/jpeg;base64,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" alt="Foto de Orlando, idealizador da pesquisa" style="width:64px; height:64px; border-radius:50%; object-fit:cover; flex-shrink:0;">
+        <p style="margin:0; font-size:14px; color:var(--text-sec); line-height:1.6;">Sou eu, Orlando. Essa pesquisa nasceu de uma pergunta que fiz sobre a minha própria casa: será que os episódios de gripe e resfriado estão acontecendo com mais frequência, ou é só impressão minha? Quis descobrir se isso também acontece com outras famílias.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="privacidade">
+    <div class="wrap">
+      <p class="eyebrow">Privacidade</p>
+      <h2>O que fazemos com suas respostas</h2>
+      <p>As perguntas da pesquisa são anônimas: não pedimos CPF, telefone ou endereço. Cidade e estado são opcionais. Os resultados são exibidos apenas de forma agregada.</p>
+      <p>Se você optar por deixar nome, e-mail ou WhatsApp ao final (etapa totalmente opcional), esse contato é usado apenas para o que você autorizar — nunca para lotar sua caixa de mensagens. Você pode pedir a remoção a qualquer momento.</p>
+      <p>Os dados fornecidos serão utilizados exclusivamente para análise estatística, apresentação agregada dos resultados e, quando autorizado, envio pontual de conteúdos sobre vida saudável.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="wrap">
+      <div class="card">
+        <p style="margin:0; font-size:13px; color:var(--text-sec);"><strong style="color:var(--text);">Aviso:</strong> esta página tem finalidade exclusivamente informativa e de pesquisa. Não oferece diagnóstico, tratamento ou orientação médica individual. Pessoas com sintomas importantes ou persistentes devem procurar avaliação de um profissional de saúde.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===================== SURVEY ===================== -->
+<div id="view-survey">
+  <div class="survey-shell">
+    <div class="survey-top">
+      <button onclick="prevStep()" id="btn-back" aria-label="Voltar">&larr; Voltar</button>
+      <span id="step-indicator" style="font-size:13px; color:var(--text-sec);">Pergunta 1 de 7</span>
+      <button onclick="exitSurvey()" aria-label="Sair da pesquisa">✕</button>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div id="step-container" role="group" aria-live="polite"></div>
+  </div>
+</div>
+
+<!-- ===================== SUCCESS ===================== -->
+<div id="view-success">
+  <div class="wrap">
+    <div class="success-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#24745B" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg></div>
+    <h1 style="font-size:24px;">Obrigado por participar.</h1>
+    <p style="max-width:420px; margin:0 auto;">Sua resposta foi adicionada à pesquisa. Quanto mais pessoas participarem, melhor conseguiremos visualizar os padrões relatados pelas famílias.</p>
+    <div class="success-actions">
+      <button class="btn btn-primary btn-block" onclick="go('results')">Ver resultados da pesquisa</button>
+      <button class="btn btn-secondary btn-block" onclick="shareSurvey()">Compartilhar pesquisa</button>
+    </div>
+    <p class="note" style="margin-top:18px;">Convide outras famílias a responder. Isso ajuda a reduzir o viés de uma amostra muito pequena.</p>
+  </div>
+</div>
+
+<!-- ===================== RESULTS ===================== -->
+<div id="view-results">
+  <div class="wrap results-shell">
+    <span class="mock-tag" id="mock-flag">MOCK_DATA — ambiente de demonstração</span>
+    <p class="eyebrow">Resultados</p>
+    <h1 style="font-size:26px;">O que as famílias estão relatando?</h1>
+    <p>Resultados agregados da pesquisa Pulso Respiratório.</p>
+
+    <div class="stat-grid" id="results-total-grid" style="margin:20px 0 30px;"></div>
+
+    <div class="insight-box" id="insight-main"></div>
+
+    <h2 style="margin-top:34px;">Qual é o intervalo mais relatado entre episódios?</h2>
+    <div id="chart-frequency"></div>
+
+    <h2 style="margin-top:40px;">Sintomas mais relatados</h2>
+    <div id="chart-symptoms"></div>
+
+    <h2 style="margin-top:40px;">Transmissão percebida dentro da residência</h2>
+    <div id="chart-spread"></div>
+
+    <div class="methodology" style="margin-top:40px;">
+      <h3>Sobre estes números</h3>
+      <p>Estes dados representam relatos dos participantes e não permitem estabelecer diagnóstico, prevalência populacional ou causa dos episódios. A amostra não é probabilística. Segmentações por cidade/estado só são exibidas quando há pelo menos 20 respostas na região, para evitar identificação indireta.</p>
+    </div>
+
+    <button class="btn btn-secondary" style="margin-top:10px;" onclick="go('home')">Voltar ao início</button>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p style="margin:0;">Pulso Respiratório — pesquisa observacional de percepção, não substitui avaliação médica.</p>
+    <p style="margin:0;"><a href="#" onclick="go('home');scrollToId('privacidade');return false;">Privacidade</a> · <a href="#" onclick="go('home');scrollToId('sobre');return false;">Metodologia</a></p>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+/* ============ Supabase connection ============ */
+const SUPABASE_URL = "https://deswymeisqeiqwtbwzur.supabase.co";
+const SUPABASE_KEY = "sb_publishable_0wEEyk1GwH8Wy-9Qn-Xk8A_Lp7l2fvL";
+const supabaseClient = (SUPABASE_URL && SUPABASE_KEY && window.supabase)
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY)
+  : null;
+
+/* ============ MOCK DATA (dev only — never treat as real) ============ */
+const MOCK_DATA = {
+  total: 0, // 0 = mostra estado vazio real (correto para produção sem backend)
+  frequency: [
+    {label:"1–2 semanas", value:0},
+    {label:"20–30 dias", value:0},
+    {label:"2–3 meses", value:0},
+    {label:"4–6 meses", value:0},
+    {label:"1–2 vezes/ano", value:0},
+    {label:"Menos de 1 vez/ano", value:0},
+    {label:"Não sabe", value:0},
+  ],
+  symptoms: [],
+  spread: [
+    {label:"Quase sempre", value:0},{label:"Frequentemente", value:0},{label:"Às vezes", value:0},{label:"Raramente", value:0},{label:"Nunca", value:0}
+  ]
+};
+// Demo dataset shown ONLY so you can see the layout working — swap MOCK_DATA above for real aggregation from Supabase.
+const DEMO_PREVIEW = {
+  total: 1284,
+  frequency: [
+    {label:"1–2 semanas", value:96},{label:"20–30 dias", value:397},{label:"2–3 meses", value:301},
+    {label:"4–6 meses", value:214},{label:"1–2 vezes/ano", value:158},{label:"Menos de 1 vez/ano", value:71},{label:"Não sabe", value:47}
+  ],
+  symptoms: [
+    {label:"Coriza", value:912},{label:"Tosse", value:801},{label:"Nariz entupido", value:754},
+    {label:"Dor de garganta", value:688},{label:"Dor de cabeça", value:502},{label:"Febre", value:341}
+  ],
+  spread: [
+    {label:"Quase sempre", value:231},{label:"Frequentemente", value:398},{label:"Às vezes", value:412},{label:"Raramente", value:189},{label:"Nunca", value:54}
+  ]
+};
+const USE_DEMO_PREVIEW = false; // real Supabase data is now wired up; set true only to preview layout with sample numbers
+
+/* ============ view routing ============ */
+function go(view){
+  ['home','survey','success','results'].forEach(v=>{
+    document.getElementById('view-'+v).style.display = (v===view) ? 'block' : 'none';
+  });
+  window.scrollTo({top:0, behavior:'auto'});
+  if(view==='results') renderResults();
+  if(view==='home') renderHomeStats();
+}
+function scrollToId(id){ setTimeout(()=>{ const el=document.getElementById(id); if(el) el.scrollIntoView({behavior:'smooth'}); }, 50); }
+
+/* ============ survey state ============ */
+const QUESTIONS = [
+  {
+    id:'frequency', title:'Pensando nos últimos meses, com que frequência você ou alguém da sua casa apresenta um novo episódio de sintomas respiratórios?',
+    help:'Considere episódios com sintomas como coriza, espirros, nariz entupido, dor de garganta, tosse, febre ou dores no corpo.',
+    type:'single',
+    options:['A cada 1–2 semanas','Aproximadamente a cada 20–30 dias','A cada 2–3 meses','A cada 4–6 meses','1–2 vezes por ano','Menos de uma vez por ano','Não consigo estimar']
+  },
+  {
+    id:'symptoms', title:'Quando esses episódios acontecem, quais sintomas aparecem com mais frequência?',
+    help:'Você pode marcar mais de uma opção.', type:'multi',
+    options:['Coriza','Espirros','Nariz entupido','Dor ou ardência na garganta','Tosse','Dor de cabeça','Dor no corpo','Febre','Secreção nasal','Cansaço','Falta de ar','Outros']
+  },
+  {
+    id:'household_size', title:'Quantas pessoas moram na sua casa?', type:'single',
+    options:['1','2','3','4','5','6 ou mais']
+  },
+  {
+    id:'children_presence', title:'Há crianças ou adolescentes morando na casa?', type:'single',
+    options:['Não','Sim, crianças de 0 a 5 anos','Sim, crianças de 6 a 11 anos','Sim, adolescentes de 12 a 17 anos','Há crianças/adolescentes em mais de uma dessas faixas']
+  },
+  {
+    id:'household_spread', title:'Quando uma pessoa da casa começa com sintomas, outras costumam apresentar sintomas nos dias seguintes?', type:'single',
+    options:['Quase sempre','Frequentemente','Às vezes','Raramente','Nunca','Não sei dizer']
+  },
+  {
+    id:'episodes_last_3_months', title:'Nos últimos 3 meses, aproximadamente quantos episódios de sintomas respiratórios aconteceram na sua casa?',
+    help:'Conte episódios, não número de pessoas.', type:'single',
+    options:['Nenhum','1','2','3','4','5 ou mais','Não consigo lembrar']
+  },
+  {
+    id:'location', title:'De onde você está respondendo?', type:'location'
+  },
+  {
+    id:'comment', title:'Quer contar alguma percepção sobre o que tem acontecido na sua casa?', type:'text',
+    help:'Opcional. Evite informar nomes, telefones, endereços ou outros dados pessoais.'
+  },
+  {
+    id:'contact', title:'Quer receber conteúdos sobre imunidade e vida saudável?', type:'contact',
+    help:'Totalmente opcional. Não vamos encher seu WhatsApp ou e-mail — apenas conteúdos relevantes, quando fizerem sentido.'
+  },
+  {
+    id:'review', title:'Está tudo certo?', type:'review'
+  }
+];
+
+const UF_LIST = ["AC","AL","AP","AM","BA","CE","DF","ES","GO","MA","MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN","RS","RO","RR","SC","SP","SE","TO"];
+
+let current = 0;
+let answers = {};
+
+function startSurvey(){
+  current = 0; answers = {};
+  go('survey');
+  renderStep();
+}
+function exitSurvey(){ go('home'); }
+
+function totalSteps(){ return QUESTIONS.length; }
+
+function renderStep(){
+  const q = QUESTIONS[current];
+  document.getElementById('step-indicator').textContent = `Pergunta ${Math.min(current+1, totalSteps()-1)} de ${totalSteps()-1}`;
+  document.getElementById('progress-fill').style.width = ((current)/(totalSteps()-1))*100 + '%';
+  document.getElementById('btn-back').style.visibility = current===0 ? 'hidden' : 'visible';
+
+  const c = document.getElementById('step-container');
+  let html = `<h2 class="q-title">${q.title}</h2>`;
+  if(q.help) html += `<p class="q-help">${q.help}</p>`;
+
+  if(q.type==='single'){
+    html += `<div class="options" role="radiogroup" aria-label="${q.title}">`;
+    q.options.forEach(opt=>{
+      const checked = answers[q.id]===opt;
+      html += optionHTML(opt, checked, `selectSingle('${q.id}','${escAttr(opt)}')`, 'radio');
+    });
+    html += `</div>`;
+  } else if(q.type==='multi'){
+    html += `<div class="options" role="group" aria-label="${q.title}">`;
+    q.options.forEach(opt=>{
+      const arr = answers[q.id]||[];
+      const checked = arr.includes(opt);
+      html += optionHTML(opt, checked, `toggleMulti('${q.id}','${escAttr(opt)}')`, 'checkbox');
+    });
+    html += `</div>`;
+    if((answers[q.id]||[]).includes('Outros')){
+      html += `<div class="field"><label class="field-label" for="outros-txt">Qual?</label><input type="text" id="outros-txt" value="${answers.symptoms_other||''}" oninput="answers.symptoms_other=this.value" maxlength="80"></div>`;
+    }
+  } else if(q.type==='location'){
+    html += `<div class="field"><label class="field-label" for="city">Cidade</label><input type="text" id="city" value="${answers.city||''}" oninput="answers.city=this.value" placeholder="Ex.: Belo Horizonte"></div>`;
+    html += `<div class="field"><label class="field-label" for="state">Estado</label><select id="state" onchange="answers.state=this.value"><option value="">Selecione</option>` + UF_LIST.map(uf=>`<option value="${uf}" ${answers.state===uf?'selected':''}>${uf}</option>`).join('') + `</select></div>`;
+    html += `<label style="display:flex; gap:8px; align-items:center; font-size:13.5px; color:var(--text-sec); cursor:pointer;"><input type="checkbox" id="no-loc" ${answers.noLocation?'checked':''} onchange="toggleNoLocation(this.checked)"> Prefiro não informar</label>`;
+  } else if(q.type==='text'){
+    html += `<div class="field"><textarea id="comment-txt" maxlength="500" placeholder="Ex.: Parece que uma pessoa melhora e outra começa a apresentar sintomas poucos dias depois." oninput="answers.comment=this.value; document.getElementById('char-count').textContent=this.value.length+'/500'">${answers.comment||''}</textarea><div class="char-count" id="char-count">${(answers.comment||'').length}/500</div></div>`;
+  } else if(q.type==='contact'){
+    html += `
+      <div class="field"><label class="field-label" for="c-name">Nome (opcional)</label><input type="text" id="c-name" value="${answers.contact_name||''}" oninput="answers.contact_name=this.value" placeholder="Seu nome"></div>
+      <div class="field"><label class="field-label" for="c-email">E-mail (opcional)</label><input type="email" id="c-email" value="${answers.contact_email||''}" oninput="answers.contact_email=this.value" placeholder="voce@email.com"></div>
+      <div class="field"><label class="field-label" for="c-whats">WhatsApp (opcional)</label><input type="tel" id="c-whats" value="${answers.contact_whats||''}" oninput="answers.contact_whats=this.value" placeholder="(00) 00000-0000"></div>
+      <div class="consent-row"><input type="checkbox" id="c-consent" ${answers.contact_consent?'checked':''} onchange="answers.contact_consent=this.checked"><label for="c-consent" style="font-size:13.5px; color:var(--text-sec);">Autorizo o envio pontual de conteúdos sobre imunidade e vida saudável por e-mail e/ou WhatsApp. Sei que posso pedir para parar a qualquer momento.</label></div>
+      <input type="text" name="website" class="honeypot" tabindex="-1" autocomplete="off" oninput="answers._hp=this.value">
+    `;
+  } else if(q.type==='review'){
+    html += buildReview();
+    html += `<div class="consent-row"><input type="checkbox" id="final-consent" ${answers.final_consent?'checked':''} onchange="answers.final_consent=this.checked; updateSubmitState()"><label for="final-consent" style="font-size:13.5px; color:var(--text-sec);">Entendo que esta é uma pesquisa de percepção e que minhas respostas serão analisadas de forma agregada.</label></div>`;
+  }
+  c.innerHTML = html;
+
+  const nav = document.createElement('div');
+  nav.className = 'survey-nav';
+  nav.style.marginTop = '18px';
+  if(q.type==='review'){
+    nav.innerHTML = `<button class="btn btn-secondary" onclick="prevStep()">Revisar</button><button class="btn btn-primary" id="submit-btn" onclick="submitSurvey()">Enviar respostas</button>`;
+  } else {
+    nav.innerHTML = `<button class="btn btn-secondary" onclick="prevStep()" style="visibility:${current===0?'hidden':'visible'}">Voltar</button><button class="btn btn-primary" onclick="nextStep()" id="next-btn">Continuar</button>`;
+  }
+  c.appendChild(nav);
+  if(q.type==='review') updateSubmitState();
+}
+
+function optionHTML(label, checked, onclick, role){
+  return `<button type="button" class="option" role="${role}" aria-checked="${checked}" onclick="${onclick}">
+    <span>${label}</span>
+    <span class="chk"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg></span>
+  </button>`;
+}
+function escAttr(s){ return s.replace(/'/g, "\\'"); }
+
+function selectSingle(id, val){ answers[id]=val; renderStep(); }
+function toggleMulti(id, val){
+  const arr = answers[id] || [];
+  const i = arr.indexOf(val);
+  if(i>-1) arr.splice(i,1); else arr.push(val);
+  answers[id]=arr; renderStep();
+}
+function toggleNoLocation(v){ answers.noLocation=v; if(v){answers.city='';answers.state='';} renderStep(); }
+
+function buildReview(){
+  const rows = [
+    ['Frequência dos episódios', answers.frequency],
+    ['Sintomas', (answers.symptoms||[]).join(', ')],
+    ['Pessoas na casa', answers.household_size],
+    ['Crianças/adolescentes', answers.children_presence],
+    ['Sintomas se espalham na casa', answers.household_spread],
+    ['Episódios nos últimos 3 meses', answers.episodes_last_3_months],
+    ['Local', answers.noLocation ? 'Não informado' : [answers.city, answers.state].filter(Boolean).join(' / ') || 'Não informado'],
+  ];
+  let html = `<div class="card" style="margin-bottom:18px;">`;
+  rows.forEach(r=>{
+    html += `<div class="review-item"><span class="k">${r[0]}</span><span class="v">${r[1]||'—'}</span></div>`;
+  });
+  html += `</div>`;
+  return html;
+}
+
+function nextStep(){
+  if(current < totalSteps()-1){ current++; renderStep(); window.scrollTo({top:0}); }
+}
+function prevStep(){
+  if(current > 0){ current--; renderStep(); window.scrollTo({top:0}); }
+  else { exitSurvey(); }
+}
+function updateSubmitState(){
+  const btn = document.getElementById('submit-btn');
+  if(btn) btn.disabled = !answers.final_consent;
+}
+
+async function submitSurvey(){
+  if(!answers.final_consent) return;
+  if(answers._hp){ return; } // honeypot triggered — silently drop
+
+  const row = {
+    frequency: answers.frequency,
+    symptoms: answers.symptoms || [],
+    symptoms_other: answers.symptoms_other || null,
+    household_size: answers.household_size,
+    children_presence: answers.children_presence,
+    household_spread: answers.household_spread,
+    episodes_last_3_months: answers.episodes_last_3_months,
+    city: answers.noLocation ? null : (answers.city || null),
+    state: answers.noLocation ? null : (answers.state || null),
+    open_comment: answers.comment || null,
+    contact_name: answers.contact_name || null,
+    contact_email: answers.contact_email || null,
+    contact_whats: answers.contact_whats || null,
+    contact_consent: !!answers.contact_consent
+  };
+
+  const submitBtn = document.getElementById('submit-btn');
+  if(submitBtn){ submitBtn.disabled = true; submitBtn.textContent = 'Enviando...'; }
+
+  if(!supabaseClient){
+    console.warn('Supabase não configurado — resposta não foi salva.', row);
+    go('success');
+    return;
+  }
+
+  const { error } = await supabaseClient.from('survey_responses').insert([row]);
+
+  if(error){
+    console.error('Erro ao enviar resposta:', error);
+    if(submitBtn){ submitBtn.disabled = false; submitBtn.textContent = 'Enviar respostas'; }
+    showToast('Não foi possível enviar agora. Tente novamente.');
+    return;
+  }
+  go('success');
+}
+
+/* ============ fetching real data from Supabase ============ */
+async function fetchAggregateData(){
+  if(USE_DEMO_PREVIEW) return DEMO_PREVIEW;
+  if(!supabaseClient) return MOCK_DATA;
+
+  try{
+    const [totalRes, freqRes, symRes, spreadRes] = await Promise.all([
+      supabaseClient.from('survey_aggregate_total').select('total').single(),
+      supabaseClient.from('survey_aggregate_frequency').select('label,value'),
+      supabaseClient.from('survey_aggregate_symptoms').select('label,value'),
+      supabaseClient.from('survey_aggregate_spread').select('label,value'),
+    ]);
+    if(totalRes.error || freqRes.error || symRes.error || spreadRes.error){
+      console.error('Erro ao buscar agregados:', totalRes.error||freqRes.error||symRes.error||spreadRes.error);
+      return MOCK_DATA;
+    }
+    const known = {
+      frequency: ["1–2 semanas","20–30 dias","2–3 meses","4–6 meses","1–2 vezes/ano","Menos de 1 vez/ano","Não sabe"],
+      spread: ["Quase sempre","Frequentemente","Às vezes","Raramente","Nunca"]
+    };
+    const fillZeros = (labels, rows) => labels.map(l => rows.find(r=>r.label===l) || {label:l, value:0});
+    return {
+      total: (totalRes.data && totalRes.data.total) || 0,
+      frequency: fillZeros(known.frequency, freqRes.data||[]),
+      symptoms: symRes.data || [],
+      spread: fillZeros(known.spread, spreadRes.data||[])
+    };
+  } catch(e){
+    console.error('Falha ao conectar ao Supabase:', e);
+    return MOCK_DATA;
+  }
+}
+
+/* ============ home stats ============ */
+async function renderHomeStats(){
+  const data = await fetchAggregateData();
+  const heading = document.getElementById('stats-heading');
+  const grid = document.getElementById('stat-grid');
+  if(!data.total){
+    heading.textContent = 'Pesquisa iniciada recentemente';
+    grid.innerHTML = '';
+    return;
+  }
+  heading.textContent = data.total.toLocaleString('pt-BR') + ' respostas até agora';
+  const topFreq = [...data.frequency].sort((a,b)=>b.value-a.value)[0];
+  const pct = Math.round((topFreq.value/data.total)*100);
+  grid.innerHTML = `
+    <div class="stat-card"><div class="val">${data.total.toLocaleString('pt-BR')}</div><div class="lbl">respostas</div></div>
+    <div class="stat-card"><div class="val">${pct}%</div><div class="lbl">relatam "${topFreq.label}"</div></div>
+    <div class="stat-card"><div class="val">${data.symptoms.length ? [...data.symptoms].sort((a,b)=>b.value-a.value)[0].label : '—'}</div><div class="lbl">sintoma mais citado</div></div>
+  `;
+}
+
+/* ============ results page ============ */
+async function renderResults(){
+  const data = await fetchAggregateData();
+  document.getElementById('mock-flag').style.display = USE_DEMO_PREVIEW ? 'inline-block' : 'none';
+
+  const totalGrid = document.getElementById('results-total-grid');
+  const insight = document.getElementById('insight-main');
+
+  if(data.total === 0){
+    totalGrid.innerHTML = `<div class="stat-card" style="grid-column:1/-1;"><div class="val">—</div><div class="lbl">Pesquisa iniciada recentemente. Ainda não há respostas suficientes para exibir resultados.</div></div>`;
+    insight.innerHTML = `Assim que houver respostas suficientes, calcularemos aqui os padrões relatados pelas famílias participantes.`;
+    document.getElementById('chart-frequency').innerHTML='';
+    document.getElementById('chart-symptoms').innerHTML='';
+    document.getElementById('chart-spread').innerHTML='';
+    return;
+  }
+
+  totalGrid.innerHTML = `<div class="stat-card"><div class="val">${data.total.toLocaleString('pt-BR')}</div><div class="lbl">respostas totais</div></div>`;
+
+  const topFreq = [...data.frequency].sort((a,b)=>b.value-a.value)[0];
+  const upTo30 = data.frequency.filter(f=>f.label==='1–2 semanas'||f.label==='20–30 dias').reduce((s,f)=>s+f.value,0);
+  const pctUpTo30 = Math.round((upTo30/data.total)*100);
+  insight.innerHTML = `Até o momento, <strong>${pctUpTo30}%</strong> dos participantes relatam episódios respiratórios em intervalos de até 30 dias. Esses dados representam relatos dos participantes e não permitem estabelecer diagnóstico, prevalência populacional ou causa dos episódios.`;
+
+  renderBars('chart-frequency', data.frequency, data.total);
+  renderBars('chart-symptoms', data.symptoms, data.total, true);
+  renderBars('chart-spread', data.spread, data.total);
+}
+
+function renderBars(containerId, items, total, isMulti){
+  const sorted = [...items].sort((a,b)=>b.value-a.value);
+  const max = Math.max(...sorted.map(i=>i.value), 1);
+  let html = '';
+  sorted.forEach(it=>{
+    const pctOfTotal = Math.round((it.value/total)*100);
+    const widthPct = Math.round((it.value/max)*100);
+    html += `<div class="bar-row">
+      <div class="bar-label"><span class="cat">${it.label}</span><span class="val">${pctOfTotal}% · ${it.value.toLocaleString('pt-BR')}</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:${widthPct}%"></div></div>
+    </div>`;
+  });
+  document.getElementById(containerId).innerHTML = html;
+}
+
+/* ============ share ============ */
+function shareSurvey(){
+  const url = window.location.href;
+  const text = 'Com que frequência as pessoas da sua casa ficam gripadas ou resfriadas? Estou participando de uma pesquisa anônima sobre a frequência de sintomas respiratórios nas famílias. Leva menos de 1 minuto para responder.';
+  if(navigator.share){
+    navigator.share({title:'Pulso Respiratório', text, url}).catch(()=>{});
+  } else {
+    navigator.clipboard.writeText(text + ' ' + url).then(()=>showToast('Link copiado.'));
+  }
+}
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* init */
+renderHomeStats();
+go('home');
+</script>
+</body>
+</html>
